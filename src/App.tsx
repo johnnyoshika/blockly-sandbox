@@ -92,7 +92,24 @@ const App = () => {
     };
   }, [workspace]);
 
-  return <div ref={blocklyRef} style={{ height: '100vh' }}></div>;
+  const printCode = () => {
+    const code = Blockly.JavaScript.workspaceToCode(workspace!);
+    console.log(code);
+  };
+
+  return (
+    <div>
+      <div style={{ padding: '16px', background: '#a5a5e9' }}>
+        <button type="button" onClick={printCode}>
+          Code
+        </button>
+      </div>
+      <div
+        ref={blocklyRef}
+        style={{ height: 'calc(100vh - 56px)' }}
+      ></div>
+    </div>
+  );
 };
 
 export default App;
