@@ -1,4 +1,5 @@
 import Blockly from 'blockly';
+import { createPlayground } from '@blockly/dev-tools';
 import { useEffect, useRef, useState } from 'react';
 
 const App = () => {
@@ -42,21 +43,31 @@ const App = () => {
       ],
     };
 
-    const ws = Blockly.inject(blocklyRef.current, {
-      toolbox,
-      zoom: {
-        wheel: true,
+    let ws: Blockly.WorkspaceSvg | undefined;
+    console.log('blocklyRef.current!', blocklyRef.current!);
+    createPlayground(
+      blocklyRef.current!,
+      (element, options) => {
+        console.log('element, options', element, options);
+        ws = Blockly.inject(element, options);
+        setWorkspace(ws);
+        return ws;
       },
-      move: {
-        scrollbars: true,
-        drag: true,
-        wheel: true,
+      {
+        toolbox,
+        zoom: {
+          wheel: true,
+        },
+        move: {
+          scrollbars: true,
+          drag: true,
+          wheel: true,
+        },
       },
-    });
-    setWorkspace(ws);
+    );
 
     return () => {
-      ws.dispose();
+      ws?.dispose();
     };
   }, [setWorkspace]);
 
