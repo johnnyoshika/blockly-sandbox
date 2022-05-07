@@ -1,4 +1,5 @@
 import Blockly from 'blockly';
+import '@blockly/block-plus-minus';
 import { useEffect, useRef, useState } from 'react';
 
 const App = () => {
