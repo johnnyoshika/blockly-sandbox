@@ -1,6 +1,7 @@
 import Blockly from 'blockly';
 import '@blockly/block-plus-minus';
 import { useEffect, useRef, useState } from 'react';
+import './blocks/textLengthOf';
 
 const App = () => {
   const hydratedRef = useRef(false);
@@ -43,6 +44,32 @@ const App = () => {
         {
           kind: 'block',
           type: 'text_join',
+        },
+        {
+          kind: 'block',
+          type: 'x_text_length_of',
+        },
+        {
+          kind: 'block',
+          blockxml: `<block type="x_text_length_of">
+          <value name="INPUT">
+            <shadow type="text">
+              <field name="TEXT"></field>
+            </shadow>
+          </value>
+        </block>`,
+          type: 'x_text_length_of',
+        },
+        {
+          kind: 'block',
+          blockxml: `<block type="x_text_length_of">
+          <value name="INPUT">
+            <block type="lists_create_with">
+              <mutation items="0"></mutation>
+            </block>
+          </value>
+        </block>`,
+          type: 'x_text_length_of',
         },
       ],
     };
