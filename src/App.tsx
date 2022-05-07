@@ -39,6 +39,10 @@ const App = () => {
           kind: 'block',
           type: 'text_print',
         },
+        {
+          kind: 'block',
+          type: 'text_join',
+        },
       ],
     };
 
