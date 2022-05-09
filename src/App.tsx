@@ -24,7 +24,7 @@ const App = () => {
       contents: [
         {
           kind: 'category',
-          id: 'standard',
+          toolboxitemid: 'standard', // Doesn't seem to do anything
           name: 'Standard',
           colour: '#ff9900',
           contents: [
@@ -90,6 +90,7 @@ const App = () => {
         },
         {
           kind: 'category',
+          toolboxitemid: 'user-inputs',
           name: 'User Inputs',
           colour: '#000',
           // hidden: 'true',
@@ -167,6 +168,14 @@ const App = () => {
     );
   };
 
+  const hideUserInputs = () => {
+    workspace.getToolbox().getToolboxItemById('user-inputs').hide();
+  };
+
+  const showUserInputs = () => {
+    workspace.getToolbox().getToolboxItemById('user-inputs').show();
+  };
+
   return (
     <div>
       <div style={{ padding: '16px', background: '#a5a5e9' }}>
@@ -175,6 +184,12 @@ const App = () => {
         </button>
         <button type="button" onClick={dropdown}>
           Dropdown
+        </button>
+        <button type="button" onClick={hideUserInputs}>
+          Hide User Inputs
+        </button>
+        <button type="button" onClick={showUserInputs}>
+          Show User Inputs
         </button>
       </div>
       <div
