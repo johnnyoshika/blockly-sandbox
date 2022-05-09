@@ -28,6 +28,17 @@ export const setInputOptions = (options: [string, string][]) => {
   INPUT_OPTIONS.push(...options);
 };
 
+export const userInputsFlyoutCallback = (
+  workspace: Blockly.Workspace,
+) =>
+  INPUT_OPTIONS.map(([_label, value]) => ({
+    kind: 'block',
+    type: 'x_user_input',
+    fields: {
+      ID: value,
+    },
+  }));
+
 Blockly.Extensions.register('set_user_input_options', function () {
   // this refers to the block that the extension is being run on
   // @ts-ignore

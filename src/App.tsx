@@ -4,7 +4,10 @@ import { useEffect, useRef, useState } from 'react';
 import './blocks/parentTooltipExtension.ts';
 import './blocks/textLengthOf';
 import './blocks/userInput';
-import { setInputOptions } from './blocks/userInput';
+import {
+  setInputOptions,
+  userInputsFlyoutCallback,
+} from './blocks/userInput';
 
 const App = () => {
   const hydratedRef = useRef(false);
@@ -12,13 +15,26 @@ const App = () => {
 
   const [workspace, setWorkspace] = useState<Blockly.WorkspaceSvg>();
 
-  useEffect(() => {
-    setInputOptions([
-      ['red', 'RED'],
-      ['blue', 'BLUE'],
-      ['green', 'GREEN'],
-    ]);
+  const [options, setOptions] = useState<[string, string][]>([]);
 
+  useEffect(() => {
+    // An empty list is problematic when there's already a x_user_input block in the workspace, as Blockly will complain of an empty options list when that block is rendered.
+    // Setting it 'Unknown' will force all x_user_input in the workspace to show 'Unknown'.
+    setInputOptions(
+      options.length ? options : [['Unknown', 'UNKNOWN']],
+    );
+  }, [options]);
+
+  useEffect(() => {
+    if (!workspace) return;
+
+    if (options.length)
+      workspace.getToolbox().getToolboxItemById('user-inputs').show();
+    else
+      workspace.getToolbox().getToolboxItemById('user-inputs').hide();
+  }, [options, workspace]);
+
+  useEffect(() => {
     var toolbox = {
       kind: 'categoryToolbox',
       contents: [
@@ -93,13 +109,8 @@ const App = () => {
           toolboxitemid: 'user-inputs',
           name: 'User Inputs',
           colour: '#000',
-          // hidden: 'true',
-          contents: [
-            {
-              kind: 'block',
-              type: 'x_user_input',
-            },
-          ],
+          hidden: 'true',
+          custom: 'USER_INPUTS',
         },
       ],
     };
@@ -116,6 +127,11 @@ const App = () => {
       },
     });
     setWorkspace(ws);
+
+    ws.registerToolboxCategoryCallback(
+      'USER_INPUTS',
+      userInputsFlyoutCallback,
+    );
 
     return () => {
       ws.dispose();
@@ -160,12 +176,13 @@ const App = () => {
     console.log(code);
   };
 
-  const dropdown = () => {
+  const handleOptions = () => {
     const options = window.prompt('Comma separated list of options');
-    if (!options) return;
-    setInputOptions(
-      options.split(',').map(o => [o, o.toUpperCase()]),
-    );
+    if (options === null) return;
+
+    if (!options) setOptions([]);
+    else
+      setOptions(options.split(',').map(o => [o, o.toUpperCase()]));
   };
 
   const hideUserInputs = () => {
@@ -182,8 +199,8 @@ const App = () => {
         <button type="button" onClick={printCode}>
           Code
         </button>
-        <button type="button" onClick={dropdown}>
-          Dropdown
+        <button type="button" onClick={handleOptions}>
+          Options
         </button>
         <button type="button" onClick={hideUserInputs}>
           Hide User Inputs
