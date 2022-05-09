@@ -28,16 +28,18 @@ Blockly.Blocks['x_text_length_of'] = {
       colour: 120,
       tooltip: '',
       helpUrl: '',
+      extensions: ['parent_tooltip_extension'],
     });
 
     // If we didn't use arrow function, we would have to assign 'this' to a variable for use a closure
 
-    this.setTooltip(() => {
-      return 'Selection is "%1".'.replace(
-        '%1',
-        this.getFieldValue('COLOR'),
-      );
-    });
+    // Commented out so this.setTooltip() on parent_tooltip_extension will be used
+    // this.setTooltip(() => {
+    //   return 'Selection is "%1".'.replace(
+    //     '%1',
+    //     this.getFieldValue('COLOR'),
+    //   );
+    // });
 
     // This gets called on every change (not just this block's change)
     this.setOnChange((e: any) => {

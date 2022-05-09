@@ -1,6 +1,7 @@
 import Blockly from 'blockly';
 import '@blockly/block-plus-minus';
 import { useEffect, useRef, useState } from 'react';
+import './blocks/parentTooltipExtension.ts';
 import './blocks/textLengthOf';
 
 const App = () => {
