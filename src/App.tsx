@@ -3,6 +3,8 @@ import '@blockly/block-plus-minus';
 import { useEffect, useRef, useState } from 'react';
 import './blocks/parentTooltipExtension.ts';
 import './blocks/textLengthOf';
+import './blocks/userInput';
+import { setInputOptions } from './blocks/userInput';
 
 const App = () => {
   const hydratedRef = useRef(false);
@@ -11,6 +13,12 @@ const App = () => {
   const [workspace, setWorkspace] = useState<Blockly.WorkspaceSvg>();
 
   useEffect(() => {
+    setInputOptions([
+      ['red', 'RED'],
+      ['blue', 'BLUE'],
+      ['green', 'GREEN'],
+    ]);
+
     var toolbox = {
       kind: 'flyoutToolbox',
       contents: [
@@ -72,6 +80,13 @@ const App = () => {
         </block>`,
           type: 'x_text_length_of',
         },
+        {
+          kind: 'block',
+          blockxml: `<block type="x_user_input">
+          <field name="ID">REVENUE1</field>
+        </block>`,
+          type: 'x_user_input',
+        },
       ],
     };
 
@@ -111,6 +126,7 @@ const App = () => {
     if (!workspace) return;
 
     const listener = (event: any) => {
+      console.log('Workspace changed');
       const workspaceXml = Blockly.Xml.domToText(
         Blockly.Xml.workspaceToDom(workspace),
       );
@@ -130,11 +146,22 @@ const App = () => {
     console.log(code);
   };
 
+  const dropdown = () => {
+    const options = window.prompt('Comma separated list of options');
+    if (!options) return;
+    setInputOptions(
+      options.split(',').map(o => [o, o.toUpperCase()]),
+    );
+  };
+
   return (
     <div>
       <div style={{ padding: '16px', background: '#a5a5e9' }}>
         <button type="button" onClick={printCode}>
           Code
+        </button>
+        <button type="button" onClick={dropdown}>
+          Dropdown
         </button>
       </div>
       <div
