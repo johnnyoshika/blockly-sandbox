@@ -20,72 +20,85 @@ const App = () => {
     ]);
 
     var toolbox = {
-      kind: 'flyoutToolbox',
+      kind: 'categoryToolbox',
       contents: [
         {
-          kind: 'block',
-          type: 'controls_if',
+          kind: 'category',
+          id: 'standard',
+          name: 'Standard',
+          colour: '#ff9900',
+          contents: [
+            {
+              kind: 'block',
+              type: 'controls_if',
+            },
+            {
+              kind: 'block',
+              type: 'controls_repeat_ext',
+            },
+            {
+              kind: 'block',
+              type: 'logic_compare',
+            },
+            {
+              kind: 'block',
+              type: 'math_number',
+            },
+            {
+              kind: 'block',
+              type: 'math_arithmetic',
+            },
+            {
+              kind: 'block',
+              type: 'text',
+            },
+            {
+              kind: 'block',
+              type: 'text_print',
+            },
+            {
+              kind: 'block',
+              type: 'text_join',
+            },
+            {
+              kind: 'block',
+              type: 'x_text_length_of',
+            },
+            {
+              kind: 'block',
+              blockxml: `<block type="x_text_length_of">
+            <value name="INPUT">
+              <shadow type="text">
+                <field name="TEXT"></field>
+              </shadow>
+            </value>
+          </block>`,
+              type: 'x_text_length_of',
+            },
+            {
+              kind: 'block',
+              blockxml: `<block type="x_text_length_of">
+            <value name="INPUT">
+              <block type="lists_create_with">
+                <mutation items="0"></mutation>
+              </block>
+            </value>
+          </block>`,
+              type: 'x_text_length_of',
+            },
+          ],
         },
         {
-          kind: 'block',
-          type: 'controls_repeat_ext',
-        },
-        {
-          kind: 'block',
-          type: 'logic_compare',
-        },
-        {
-          kind: 'block',
-          type: 'math_number',
-        },
-        {
-          kind: 'block',
-          type: 'math_arithmetic',
-        },
-        {
-          kind: 'block',
-          type: 'text',
-        },
-        {
-          kind: 'block',
-          type: 'text_print',
-        },
-        {
-          kind: 'block',
-          type: 'text_join',
-        },
-        {
-          kind: 'block',
-          type: 'x_text_length_of',
-        },
-        {
-          kind: 'block',
-          blockxml: `<block type="x_text_length_of">
-          <value name="INPUT">
-            <shadow type="text">
-              <field name="TEXT"></field>
-            </shadow>
-          </value>
-        </block>`,
-          type: 'x_text_length_of',
-        },
-        {
-          kind: 'block',
-          blockxml: `<block type="x_text_length_of">
-          <value name="INPUT">
-            <block type="lists_create_with">
-              <mutation items="0"></mutation>
-            </block>
-          </value>
-        </block>`,
-          type: 'x_text_length_of',
-        },
-        {
-          kind: 'block',
-          blockxml: `<block type="x_user_input">
-          <field name="ID">REVENUE1</field>
-        </block>`,
-          type: 'x_user_input',
+          kind: 'category',
+          name: 'User Inputs',
+          colour: '#000',
+          // hidden: 'true',
+          contents: [
+            {
+              kind: 'block',
+              type: 'x_user_input',
+            },
+          ],
         },
       ],
     };
